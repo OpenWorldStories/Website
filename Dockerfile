@@ -43,7 +43,7 @@ COPY --from=builder /usr/src/app/wheels /wheels
 COPY --from=builder /usr/src/app/requirements.txt .
 
 COPY ./ows $APP_HOME
-COPY ./build /build
+COPY ./docker /build
 
 RUN apk update && apk add libpq; pip install --no-cache /wheels/*; chown -R app:app $APP_HOME
 

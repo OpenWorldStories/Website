@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  web:
+    build: 
+      context: ../
+      dockerfile: Dockerfile
+    image: webapp:${branch}
+    command: python manage.py runserver 0.0.0.0:8000
+    #volumes:
+    #  - ./app/:/usr/src/app/
+    expose:
+      - 8000
+    env_file:
+      - ../.env
+
+  nginx:
+    build: ./nginx
+    build: 
+      context: ../
+      dockerfile: docker/Dockerfile-nginx
+    image: nginx:${branch}
+    ports:
+      - 80:80
+    depends_on:
+      - web      

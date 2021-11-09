@@ -1,0 +1,47 @@
+version: '3.3'
+
+services:
+  traefik:
+    image: "traefik:v2.0.0"
+    command:
+      - --entrypoints.web.address=:80
+      - --entrypoints.websecure.address=:443
+      - --providers.docker
+      - --api
+      - --certificatesresolvers.myresolver.acme.email=admin@scare.io
+      - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
+      - --certificatesresolvers.myresolver.acme.tlschallenge=true
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - "/data/configs/traefik/letsencrypt:/letsencrypt"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    labels:
+      # global redirect to https
+      - "traefik.http.routers.http-catchall.rule=hostregexp(`{host:.+}`)"
+      - "traefik.http.routers.http-catchall.entrypoints=web"
+      - "traefik.http.routers.http-catchall.middlewares=redirect-to-https"
+
+      # middleware redirect
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+
+
+  web:
+    command: gunicorn ows.wsgi:application --bind 0.0.0.0:8000 --access-logfile -
+    image: ghcr.io/openworldstories/webapp:${branch}
+    expose:
+      - 8000
+    env_file: ./.env.prod
+
+  nginx:
+    image: ghcr.io/openworldstories/static:${branch}
+    expose:
+      - 80
+    depends_on:
+      - web
+    labels:
+      - "traefik.http.routers.sabnzbd.rule=Host(`www.openworldstories.com`)"
+      - "traefik.http.routers.sabnzbd.entrypoints=websecure"
+      - "traefik.http.routers.sabnzbd.tls=true"
+      - "traefik.http.routers.sabnzbd.tls.certresolver=myresolver"
