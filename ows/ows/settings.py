@@ -73,10 +73,15 @@ WSGI_APPLICATION = 'ows.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'django',
+        'USER': 'django',
+        'PASSWORD': os.environ.get("MARIADB_PASSWORD"),
+        'HOST': 'mariadb-server',
+        'PORT': '',
     }
 }
 

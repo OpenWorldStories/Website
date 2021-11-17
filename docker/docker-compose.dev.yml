@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   web:
-    build: 
+    build:
       context: ../
       dockerfile: Dockerfile
     image: webapp:${branch}
@@ -16,11 +16,34 @@ services:
 
   nginx:
     build: ./nginx
-    build: 
+    build:
       context: ../
       dockerfile: docker/Dockerfile-nginx
     image: nginx:${branch}
     ports:
       - 80:80
     depends_on:
-      - web      
+      - web
+  mariadb-server:
+    image: mariadb:10.7
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
+      MARIADB_DATABASE: django
+      MARIADB_USER: django
+      MARIADB_PASSWORD: ${MARIADB_PASSWORD}
+    volumes:
+      - mysql-data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    environment:
+      PMA_HOST: mariadb-server
+      PMA_USER: root
+      PMA_PASSWORD: ${MARIADB_ROOT_PASSWORD}
+    ports:
+      - "8080:80"
+volumes:
+  mysql-data:
