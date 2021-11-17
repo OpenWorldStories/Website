@@ -4,7 +4,7 @@ services:
   web:
     build: ./app
     command: gunicorn ows.wsgi:application --bind 0.0.0.0:8000 --access-logfile -
-    build: 
+    build:
       context: ../
       dockerfile: Dockerfile
     image: webapp:${branch}
@@ -15,11 +15,23 @@ services:
 
   nginx:
     build: ./nginx
-    build: 
+    build:
       context: ../
       dockerfile: docker/Dockerfile-nginx
     image: nginx:${branch}
     ports:
       - 80:80
     depends_on:
-      - web      
+      - web
+  mariadb-server:
+    image: mariadb:10.7
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
+      MARIADB_DATABASE: django
+      MARIADB_USER: django
+      MARIADB_PASSWORD: ${MARIADB_PASSWORD}
+    volumes:
+      - mysql-data:/var/lib/mysql
+    expose:
+      - 3306

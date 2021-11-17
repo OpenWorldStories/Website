@@ -45,3 +45,12 @@ services:
       - "traefik.http.routers.sabnzbd.entrypoints=websecure"
       - "traefik.http.routers.sabnzbd.tls=true"
       - "traefik.http.routers.sabnzbd.tls.certresolver=myresolver"
+
+  mariadb-server:
+    image: mariadb:10.7
+    restart: always
+    env_file: ./.env.mariadb
+    volumes:
+      - /data/mariadb:/var/lib/mysql
+    expose:
+      - 3306
