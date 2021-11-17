@@ -1,4 +1,4 @@
-# taken from - https://testdriven.io/blog/dockerizing-django-with-postgres-gunicorn-and-nginx/ 
+# taken from - https://testdriven.io/blog/dockerizing-django-with-postgres-gunicorn-and-nginx/
 
 # pull the official base image
 
@@ -16,7 +16,10 @@ COPY ./ows/* /usr/src/app/
 COPY requirements.txt .
 
 # install dependencies
-RUN pip install --upgrade pip  
+RUN apk update \
+    && apk add --virtual build-deps gcc python3-dev musl-dev \
+    && apk add --no-cache mariadb-dev
+RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 EXPOSE 8000
 
@@ -45,7 +48,8 @@ COPY --from=builder /usr/src/app/requirements.txt .
 COPY ./ows $APP_HOME
 COPY ./docker /build
 
-RUN apk update && apk add libpq; pip install --no-cache /wheels/*; chown -R app:app $APP_HOME
+RUN apk update && apk add --virtual build-deps gcc python3-dev musl-dev \
+    && apk add libpq mariadb-dev; pip install --no-cache /wheels/*; chown -R app:app $APP_HOME
 
 # change to the app user
 USER app
