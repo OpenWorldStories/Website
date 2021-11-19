@@ -14,21 +14,42 @@
 	<body class="is-preload">
 
 		<!-- Wrapper -->
-			<div id="wrapper">
+		<div id="wrapper">
 
-				<!-- Header -->
-					<header id="header" class="alt">
+			<!-- Header -->
+				<header id="header" class="alt">
 
-						<!-- Logo -->
-							<div class="logo">
-								<a href="/"><strong>Open World Stories</strong></a>
-							</div>
+					<!-- Logo -->
+						<div class="logo">
+							<a href="/"><strong>Eat the Rich</strong> <span class="extra">by Open World Stories</span></a>
+						</div>
 
-						<!-- Nav -->
-							<nav id="nav">
-								<ul>
-									<li class="current"><a href="/">Home</a></li>
-								</ul>
-							</nav>
+					<!-- Nav -->
+						<nav id="nav">
+							<ul>
+								<li class="current"><a href="/">Home</a></li>
+								{% if user.is_authenticated %}
+								<li>
+									<a href="#" class="icon solid fa-angle-down">{{ user.get_username }}</a>
+									<ul>
+										<li><a href="/logout">Logout</a></li>
+										<li><a href="{% url 'logout' %}">Option Two</a></li>
+										<li><a href="#">Option Three</a></li>
+										<li>
+											<a href="#"  class="icon solid fa-angle-left">Submenu</a>
+											<ul>
+												<li><a href="#">Option One</a></li>
+												<li><a href="#">Option Two</a></li>
+												<li><a href="#">Option Three</a></li>
+												<li><a href="#">Option Four</a></li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+								{% else %}
+								<li><a href="/login">login</a></li>
+								{% endif %}
+							</ul>
+						</nav>
 
-					</header>
+				</header>

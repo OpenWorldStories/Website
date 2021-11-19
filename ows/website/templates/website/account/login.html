@@ -1,0 +1,54 @@
+{% include "website/partials/head.html" %}
+				<!-- Section -->
+				<section id="one" class="main alt">
+					<header class="accent1">
+						<h1>login Page</h1>
+
+					</header>
+					<div class="inner alt">
+						<div class="content">
+							<div class="row gtr-200">
+								<div class="col-6 col-12-medium">
+									{% if user.is_authenticated %}
+									<strong><p>You are already Logged in {{ user.get_username }}</p></strong>
+									{% else %}
+									<strong><p>Login or <a href="/register">Register</a></p></strong>
+									<form method="post">
+
+										{% csrf_token %}
+
+										<div class="row gtr-uniform">
+
+											<div class="col-6 col-12-xsmall">
+												<label for="{{ form.fields.username.label }}">{{ form.fields.username.label }}</label>
+												<input type="{{ form.fields.username.widget.input_type }}" name="username" id="{{ form.fields.username.label }}" value="bob" placeholder="{{ form.fields.username.label }}" />
+												<label class="help_text" for="{{ form.fields.username.label }}">{{ form.fields.username.help_text }}</label>
+												<label class="error_text" for="{{ form.fields.username.label }}">{{ form.errors.username }}</label>
+											</div>
+											<div class="col-6 col-12-xsmall">
+											</div>
+											<div class="col-6 col-12-small">
+												<label for="{{ form.fields.password.label }}">{{ form.fields.password.label }}</label>
+												<input type="{{ form.fields.password.widget.input_type }}" name="password" id="{{ form.fields.password.label }}" value="Peaches345" placeholder="{{ form.fields.password.label }}" />
+												<label class="help_text" for="{{ form.fields.password.label }}">{{ form.fields.password.help_text }}</label>
+												<label class="error_text" for="{{ form.fields.password2.label }}">{{ form.errors.password }}</label>
+											</div>
+
+											<!-- Break -->
+											<div class="col-12">
+												<ul class="actions">
+													<li><input type="submit" value="Login" class="primary" /></li>
+													<li><a href="/passwordreset" class="button primary">Change Password</a></li>
+												</ul>
+											</div>
+										</div>
+									</form>
+									{% endif %}
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</section>
+
+{% include "website/partials/footer.html" %}

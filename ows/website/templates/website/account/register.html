@@ -1,0 +1,62 @@
+{% include "website/partials/head.html" %}
+				<!-- Section -->
+				<section id="one" class="main alt">
+					<header class="accent1">
+						<h1>Register</h1>
+						
+					</header>
+
+					<div class="inner alt">
+						<div class="content">
+							<div class="row gtr-200">
+
+									<form method="post">
+					
+										{% csrf_token %}
+											
+										<div class="row gtr-uniform">
+											
+											<div class="col-6 col-12-xsmall"> 
+												<label for="{{ form.fields.username.label }}">{{ form.fields.username.label }}</label>
+												<input type="{{ form.fields.username.widget.input_type }}" name="username" id="{{ form.fields.username.label }}" value="bob" placeholder="{{ form.fields.username.label }}" />
+												<label class="help_text" for="{{ form.fields.username.label }}">{{ form.fields.username.help_text }}</label>
+												<label class="error_text" for="{{ form.fields.username.label }}">{{ form.errors.username }}</label>
+											</div>
+											<div class="col-6 col-12-xsmall"> 
+											</div>
+											<div class="col-6 col-12-small">
+												<label for="{{ form.fields.username.label }}">{{ form.fields.email.label }}</label>
+												<input type="{{ form.fields.email.widget.input_type }}" name="email" id="{{ form.fields.email.label }}" value="thou@hotmail.co.uk" placeholder="{{ form.fields.email.label }}" />
+												<label class="help_text" for="{{ form.fields.email.label }}">{{ form.fields.email.help_text }}</label>
+											</div>  
+											<div class="col-6 col-12-xsmall"> 
+											</div>
+											<div class="col-6 col-12-small">
+												<label for="{{ form.fields.username.label }}">{{ form.fields.password1.label }}</label>
+												<input type="{{ form.fields.password1.widget.input_type }}" name="password1" id="{{ form.fields.password1.label }}" value="Peaches345" placeholder="{{ form.fields.password1.label }}" />
+												<label class="help_text" for="{{ form.fields.password1.label }}">{{ form.fields.password1.help_text }}</label>
+											</div>  
+											<div class="col-6 col-12-xsmall"> 
+											</div>
+											<div class="col-6 col-12-small">
+												<label for="{{ form.fields.username.label }}">{{ form.fields.password2.label }}</label>
+												<input type="{{ form.fields.password2.widget.input_type }}" name="password2" id="{{ form.fields.password2.label }}" value="Peaches345" placeholder="{{ form.fields.password2.label }}" />
+												<label class="help_text" for="{{ form.fields.password2.label }}">{{ form.fields.password2.help_text }}</label>
+												<label class="error_text" for="{{ form.fields.password2.label }}">{{ form.errors.password2 }}</label>
+											</div>  
+											<!-- Break -->
+											<div class="col-12">
+												<ul class="actions">
+													<li><input type="submit" value="Register" class="primary" /></li> 
+												</ul>
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</section>
+
+{% include "website/partials/footer.html" %}
